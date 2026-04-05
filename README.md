@@ -6,21 +6,13 @@ Every time you type `/clear` in Claude Code, Claude forgets everything about you
 
 ## Install
 
-**Step 1 - Install the skill** (once, on your machine):
-
-```bash
-claude skill install VaibhavAher100/wrap-session
-```
-
-**Step 2 - Set up your project** (once per project):
+Run this from inside your project folder:
 
 ```bash
 curl -sS https://raw.githubusercontent.com/VaibhavAher100/wrap-session/main/install.sh | sh
 ```
 
-Run this from inside your project folder. It creates all the files and folders automatically.
-
-That's it.
+That's it. The script creates all the files and folders automatically.
 
 ---
 
