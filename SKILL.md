@@ -15,35 +15,35 @@ Prevents session history loss when users type `/clear`. Sets up a project-local 
 
 ## What /wrap Does
 
-1. **Determine session ID** — scan `sessions/` for today's files, increment to next `YYYY-MM-DD-NNN`
-2. **Write session log** — create `sessions/YYYY-MM-DD-NNN.md` from the template
-3. **Overwrite living state doc** — update `_state.md` with current project health, open items, preferences
-4. **Append to decision log** — only if new cross-session structural decisions were made this session
-5. **Report** — output `Session logged as \`<id>\`. Safe to /clear.`
+1. **Determine session ID** - scan `sessions/` for today's files, increment to next `YYYY-MM-DD-NNN`
+2. **Write session log** - create `sessions/YYYY-MM-DD-NNN.md` from the template
+3. **Overwrite living state doc** - update `_state.md` with current project health, open items, preferences
+4. **Append to decision log** - only if new cross-session structural decisions were made this session
+5. **Report** - output `Session logged as \`<id>\`. Safe to /clear.`
 
 ## Three-Document System
 
 | File | Purpose | Update pattern |
 |------|---------|----------------|
 | `_state.md` | Current project health, open items, user preferences | **Overwritten** each session |
-| `_decisions.md` | Locked-in cross-session decisions | **Append-only** — never delete |
+| `_decisions.md` | Locked-in cross-session decisions | **Append-only** - never delete |
 | `sessions/YYYY-MM-DD-NNN.md` | Full session detail | Created once, immutable after |
 
 ## Setting Up in a New Project
 
-### Step 1 — Create the logging structure
+### Step 1 - Create the logging structure
 
 ```
 <logs-dir>/
-  _state.md          # Living doc — overwritten each session
+  _state.md          # Living doc - overwritten each session
   _decisions.md      # Append-only decision log
   sessions/
-    (empty — Claude fills this)
+    (empty - Claude fills this)
 ```
 
 Seed `_state.md` with current project state. Seed `_decisions.md` with the header only.
 
-### Step 2 — Create the /wrap command
+### Step 2 - Create the /wrap command
 
 ```bash
 mkdir -p .claude/commands
@@ -60,7 +60,7 @@ Copy `wrap.md` from this skill into `.claude/commands/wrap.md`.
 
 All other instructions in `wrap.md` are path-agnostic.
 
-### Step 3 — Invoke
+### Step 3 - Invoke
 
 ```
 /wrap
@@ -89,8 +89,8 @@ open_items: 0
 | Mistake | Fix |
 |---------|-----|
 | `/wrap` not found | File must be at `.claude/commands/wrap.md`, not `.claude/wrap.md` |
-| Session ID collision | Always scan existing files before picking ID — never hardcode |
+| Session ID collision | Always scan existing files before picking ID - never hardcode |
 | `_state.md` not updated | Step 3 must **overwrite**, not append |
 | Decision log bloated | Only append when a genuine cross-session structural decision was made |
-| Wrap run after `/clear` | Too late — context is gone. Always `/wrap` before `/clear` |
+| Wrap run after `/clear` | Too late - context is gone. Always `/wrap` before `/clear` |
 | Wrong paths in wrap.md | Adapt the three path comments at the top of wrap.md to match your project |

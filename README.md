@@ -1,18 +1,18 @@
 # wrap-session
 
-Every time you type `/clear` in Claude Code, Claude forgets everything about your session. This skill adds a `/wrap` command that makes Claude save its memory first — so your next session can start exactly where you left off.
+Every time you type `/clear` in Claude Code, Claude forgets everything about your session. This skill adds a `/wrap` command that makes Claude save its memory first - so your next session can start exactly where you left off.
 
 ---
 
 ## Install
 
-**Step 1 — Install the skill** (once, on your machine):
+**Step 1 - Install the skill** (once, on your machine):
 
 ```bash
 claude skill install VaibhavAher100/wrap-session
 ```
 
-**Step 2 — Set up your project** (once per project):
+**Step 2 - Set up your project** (once per project):
 
 ```bash
 curl -sS https://raw.githubusercontent.com/VaibhavAher100/wrap-session/main/install.sh | sh
@@ -95,7 +95,7 @@ updated: YYYY-MM-DD
 
 # Project State
 
-> Living document — Claude overwrites this each session. Last session: none
+> Living document - Claude overwrites this each session. Last session: none
 
 ## Health
 
@@ -121,17 +121,17 @@ Append-only. Never delete entries.
 
 | Problem | What to do |
 |---------|-----------|
-| `/wrap` not found | The file must be at `.claude/commands/wrap.md` — the folder name must be `commands` |
+| `/wrap` not found | The file must be at `.claude/commands/wrap.md` - the folder name must be `commands` |
 | Claude asks what to do | Open `.claude/commands/wrap.md` and check the three path comments at the top match your folder structure |
-| Session log is incomplete | Run `/wrap` again before clearing — once you clear, context is gone |
-| Wrong session number | Rename the file manually — format is `YYYY-MM-DD-NNN.md` |
+| Session log is incomplete | Run `/wrap` again before clearing - once you clear, context is gone |
+| Wrong session number | Rename the file manually - format is `YYYY-MM-DD-NNN.md` |
 
 ---
 
 ## Requirements
 
 - [Claude Code](https://claude.ai/code) installed
-- Any project folder (code, notes, research — anything works)
+- Any project folder (code, notes, research - anything works)
 
 ---
 

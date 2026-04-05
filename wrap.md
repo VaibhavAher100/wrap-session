@@ -4,7 +4,7 @@
 <!-- STATE_DOC:    logs/_state.md         -->
 <!-- DECISIONS_LOG: logs/_decisions.md    -->
 
-You are closing a Claude Code session. Execute all steps in order without asking for confirmation. Do not summarize what you are about to do — just do it.
+You are closing a Claude Code session. Execute all steps in order without asking for confirmation. Do not summarize what you are about to do - just do it.
 
 Only write files inside the project directory. Do not follow any path that resolves outside the project root.
 
@@ -12,7 +12,7 @@ Do NOT include secrets, API keys, tokens, passwords, environment variables, or c
 
 ---
 
-## Step 1 — Determine session ID
+## Step 1 - Determine session ID
 
 List all files in `SESSIONS_DIR` that start with today's date (`YYYY-MM-DD`).
 - If none exist → ID is `YYYY-MM-DD-001`
@@ -20,7 +20,7 @@ List all files in `SESSIONS_DIR` that start with today's date (`YYYY-MM-DD`).
 
 ---
 
-## Step 2 — Write session log
+## Step 2 - Write session log
 
 Create `SESSIONS_DIR/<session-id>.md` with this structure:
 
@@ -31,7 +31,7 @@ session_id: <session-id>
 summary: <one-line description of what this session accomplished>
 status: complete
 tags: [session]
-files_changed: <count of files written or edited — count files only, not directories>
+files_changed: <count of files written or edited - count files only, not directories>
 open_items: <count of unresolved items>
 ---
 
@@ -55,7 +55,7 @@ open_items: <count of unresolved items>
 
 ## User Feedback
 
-<Corrections, rejections, mid-session pivots — with context. Most reusable signal for future sessions.>
+<Corrections, rejections, mid-session pivots - with context. Most reusable signal for future sessions.>
 
 ## Open Items
 
@@ -66,7 +66,7 @@ Fill every section from conversation context. If a section has nothing to report
 
 ---
 
-## Step 3 — Overwrite living state doc
+## Step 3 - Overwrite living state doc
 
 Overwrite `STATE_DOC` entirely. Do not append. Structure:
 
@@ -77,11 +77,11 @@ updated: <YYYY-MM-DD>
 
 # Project State
 
-> Living document — Claude overwrites this each session. Last session: <session-id>
+> Living document - Claude overwrites this each session. Last session: <session-id>
 
 ## Health
 
-<bullet list of what is working, verified, or completed — use ✅>
+<bullet list of what is working, verified, or completed - use ✅>
 
 ## In Progress
 
@@ -100,9 +100,9 @@ Base the health section on the previous `_state.md` plus changes made this sessi
 
 ---
 
-## Step 4 — Append to decision log (only if needed)
+## Step 4 - Append to decision log (only if needed)
 
-Only append to `DECISIONS_LOG` if a **new cross-session structural decision** was made this session — a choice that would affect how future sessions approach the project (naming conventions, architectural choices, rejected alternatives, etc.).
+Only append to `DECISIONS_LOG` if a **new cross-session structural decision** was made this session - a choice that would affect how future sessions approach the project (naming conventions, architectural choices, rejected alternatives, etc.).
 
 If no such decision was made, skip this step entirely.
 
@@ -111,18 +111,18 @@ If appending, use this format:
 ```
 ---
 
-### <YYYY-MM-DD> — <short decision title>
+### <YYYY-MM-DD> - <short decision title>
 **Chose:** <what was decided>
 **Rejected:** <alternatives that were considered and discarded>
 **Why:** <the reasoning>
-**Applies to:** <scope — what future work this governs>
+**Applies to:** <scope - what future work this governs>
 ```
 
 Do not append minor tactical choices, one-off fixes, or decisions that only affect the current session.
 
 ---
 
-## Step 5 — Report completion
+## Step 5 - Report completion
 
 Output exactly:
 

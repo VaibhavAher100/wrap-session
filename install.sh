@@ -25,7 +25,7 @@ updated: $TODAY
 
 # Project State
 
-> Living document — Claude overwrites this each session. Last session: none
+> Living document - Claude overwrites this each session. Last session: none
 
 ## Health
 
