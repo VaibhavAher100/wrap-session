@@ -30,10 +30,11 @@ if [ -f "$STATE_FILE" ]; then
   # Check if state file is fresh (written within last 120 seconds)
   INPUT=$(cat)
   NOW=$(date +%s)
-  TS=$(python3 -c "
-import json
+  # Pass path via env var to avoid single-quote injection in Python string literal
+  TS=$(WRAP_STATE_FILE="$STATE_FILE" python3 -c "
+import json, os
 try:
-    d = json.load(open('$STATE_FILE'))
+    d = json.load(open(os.environ['WRAP_STATE_FILE']))
     print(d.get('ts', 0))
 except Exception:
     print(0)
@@ -41,10 +42,10 @@ except Exception:
   AGE=$(( NOW - TS ))
 
   if [ "$AGE" -lt 120 ]; then
-    CTX_PCT=$(python3 -c "
-import json
+    CTX_PCT=$(WRAP_STATE_FILE="$STATE_FILE" python3 -c "
+import json, os
 try:
-    d = json.load(open('$STATE_FILE'))
+    d = json.load(open(os.environ['WRAP_STATE_FILE']))
     print(d.get('ctx_pct', 0))
 except Exception:
     print(0)

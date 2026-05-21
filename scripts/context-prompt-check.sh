@@ -30,10 +30,11 @@ if [ ! -f "$STATE_FILE" ]; then
 fi
 
 # Read context % — file contains {"ctx_pct": 23, "ts": 1234567890}
-CTX_PCT=$(python3 -c "
-import json, sys
+# Pass path via env var to avoid single-quote injection in Python string literal
+CTX_PCT=$(WRAP_STATE_FILE="$STATE_FILE" python3 -c "
+import json, os
 try:
-    d = json.load(open('$STATE_FILE'))
+    d = json.load(open(os.environ['WRAP_STATE_FILE']))
     print(d.get('ctx_pct', 0))
 except Exception:
     print(0)
