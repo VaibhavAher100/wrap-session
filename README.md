@@ -203,15 +203,3 @@ wrap-session/
 ```
 
 ---
-
-## License
-
-MIT.
-
----
-
-## Contributors
-
-**Vaibhav Aher** ([@VaibhavAher100](https://github.com/VaibhavAher100)) - creator, three-document architecture, all five commands
-
-**Claude** (Anthropic) - v2 hardening: atomic writes, sentinel breadcrumb, context monitoring, staleness tracking, confidence schema. Full breakdown in [CONTRIBUTORS.md](CONTRIBUTORS.md).
