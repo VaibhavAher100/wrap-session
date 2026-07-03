@@ -97,6 +97,8 @@ After creating the session file, append one line to `logs/sessions/_index.jsonl`
 {"session_id": "<session-id>", "date": "<YYYY-MM-DD>", "summary": "<summary>", "confidence": "<high|medium|low>", "tags": [<tag-list-as-json-array>], "files_changed": <N>, "open_items": <N>}
 ```
 
+Escape any `"` or `\` characters inside the summary when writing this line — it must remain valid JSON.
+
 ---
 
 ## Step 3 — Update `logs/state.md` (atomic write)

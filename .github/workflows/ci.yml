@@ -1,0 +1,13 @@
+name: ci
+on: [push, pull_request]
+jobs:
+  shell:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: syntax-check installer
+        run: sh -n install.sh
+      - name: syntax-check hook scripts
+        run: for f in scripts/*.sh; do bash -n "$f"; done
+      - name: shellcheck (errors only)
+        run: shellcheck -S error install.sh scripts/*.sh

@@ -16,7 +16,7 @@ done
 
 ```bash
 mkdir -p .claude/scripts
-for s in context-thresholds context-monitor context-prompt-check change-ledger; do
+for s in context-thresholds context-monitor context-prompt-check change-ledger statusline; do
   curl -sS "https://raw.githubusercontent.com/VaibhavAher100/wrap-session/main/scripts/${s}.sh" \
     -o ".claude/scripts/${s}.sh"
   chmod +x ".claude/scripts/${s}.sh"
@@ -119,3 +119,11 @@ rm -rf logs/
 ```
 
 Remove the hook entries from `.claude/settings.json` manually.
+
+## Statusline dependency
+
+The 40%/70% context hooks only work if a statusline writes the context state file
+(`.claude/hooks/state/context-pressure.json`, fallback `/tmp/claude-context-monitor.json`).
+The installer registers the bundled `scripts/statusline.sh` only when settings.json has no
+`statusLine` yet. If you keep your own statusline, port the "state file" block from
+`scripts/statusline.sh` into it - otherwise the context monitoring silently never fires.

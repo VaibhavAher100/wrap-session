@@ -41,7 +41,7 @@ for cmd in wrap unwrap wrap-list wrap-find wrap-repair; do
 done
 
 # Download hook scripts (same logs/ -> LOG_DIR substitution as the commands)
-for script in context-thresholds context-monitor context-prompt-check change-ledger; do
+for script in context-thresholds context-monitor context-prompt-check change-ledger statusline; do
   tmpfile=$(mktemp)
   if ! curl -fsSL "$REPO/scripts/${script}.sh" -o "$tmpfile"; then
     echo "Error: failed to download scripts/${script}.sh"
@@ -60,10 +60,12 @@ if [ -z "$WRAP_NO_HOOKS" ]; then
   HOOK_PROMPT='bash ".claude/scripts/context-prompt-check.sh"'
   HOOK_MONITOR='bash ".claude/scripts/context-monitor.sh" 2>/dev/null || true'
   HOOK_LEDGER='bash ".claude/scripts/change-ledger.sh" 2>/dev/null || true'
+  STATUSLINE_CMD='bash ".claude/scripts/statusline.sh"'
 
   if [ ! -f "$SETTINGS" ]; then
     cat > "$SETTINGS" << SETTINGS_EOF
 {
+  "statusLine": { "type": "command", "command": "$STATUSLINE_CMD" },
   "hooks": {
     "UserPromptSubmit": [
       {
@@ -122,6 +124,14 @@ already = any(
 )
 if not already:
     ptu.append({"matcher": "Write|Edit|MultiEdit", "hooks": [{"type": "command", "command": ledger_cmd, "timeout": 5}]})
+
+# Register the bundled statusline ONLY if none is configured - never clobber the user's own.
+# (The context hooks need SOME statusline writing the ctx_pct state file; if the user keeps
+# theirs, they must port the state-file block from scripts/statusline.sh into it.)
+if "statusLine" not in s:
+    s["statusLine"] = {"type": "command", "command": '$STATUSLINE_CMD'}
+else:
+    print("  ! existing statusLine kept - port the state-file block from scripts/statusline.sh")
 
 with open(path, "w") as f:
     json.dump(s, f, indent=2)

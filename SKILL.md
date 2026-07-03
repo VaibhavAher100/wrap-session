@@ -15,11 +15,14 @@ Prevents session history loss when users type `/clear`. Sets up a project-local 
 
 ## What /wrap Does
 
-1. **Determine session ID** - scan `sessions/` for today's files, increment to next `YYYY-MM-DD-NNN`
-2. **Write session log** - create `sessions/YYYY-MM-DD-NNN.md` from the template
-3. **Overwrite living state doc** - update `_state.md` with current project health, open items, preferences
-4. **Append to decision log** - only if new cross-session structural decisions were made this session
-5. **Report** - output `Session logged as \`<id>\`. Safe to /clear.`
+1. **Pre-flight check** - warn before wrapping if 20+ uncommitted file deletions
+2. **Determine session ID** - scan `sessions/` for today's files, increment to next `YYYY-MM-DD-NNN`
+3. **Write session log** - create `sessions/YYYY-MM-DD-NNN.md` with a self-assessed `confidence` rating (high/medium/low, consumed by `/unwrap`), then append to `sessions/_index.jsonl`
+4. **Overwrite living state doc** - update `_state.md` atomically (tmp file, verify, rename)
+5. **Consume the change-ledger** - summarize hook-captured file changes while their content is still in context, then clear the ledger
+6. **Append to decision log** - only if new cross-session structural decisions were made this session
+7. **Update CLAUDE.md breadcrumb** - sanitized sentinel block pointing at the new session
+8. **Report** - output `Session logged as \`<id>\`. Safe to /clear.`
 
 ## Three-Document System
 
@@ -74,9 +77,11 @@ or
 
 ```yaml
 ---
+schema_version: 2
 session_date: YYYY-MM-DD
 session_id: YYYY-MM-DD-NNN
 summary: one-line description
+confidence: high   # high|medium|low - self-assessed context completeness, see the rubric in wrap.md
 status: complete
 tags: [session]
 files_changed: 0
@@ -93,4 +98,5 @@ open_items: 0
 | `_state.md` not updated | Step 3 must **overwrite**, not append |
 | Decision log bloated | Only append when a genuine cross-session structural decision was made |
 | Wrap run after `/clear` | Too late - context is gone. Always `/wrap` before `/clear` |
+| Two sessions `/wrap` at once | IDs are scan-then-write - parallel wraps can collide on the same NNN. Run one at a time |
 | Wrong paths in wrap.md | Adapt the three path comments at the top of wrap.md to match your project |
