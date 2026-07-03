@@ -57,10 +57,10 @@ done
 # Register hooks in .claude/settings.json
 if [ -z "$WRAP_NO_HOOKS" ]; then
   SETTINGS=".claude/settings.json"
-  HOOK_PROMPT='bash ".claude/scripts/context-prompt-check.sh"'
-  HOOK_MONITOR='bash ".claude/scripts/context-monitor.sh" 2>/dev/null || true'
-  HOOK_LEDGER='bash ".claude/scripts/change-ledger.sh" 2>/dev/null || true'
-  STATUSLINE_CMD='bash ".claude/scripts/statusline.sh"'
+  HOOK_PROMPT='bash .claude/scripts/context-prompt-check.sh'
+  HOOK_MONITOR='bash .claude/scripts/context-monitor.sh 2>/dev/null || true'
+  HOOK_LEDGER='bash .claude/scripts/change-ledger.sh 2>/dev/null || true'
+  STATUSLINE_CMD='bash .claude/scripts/statusline.sh'
 
   if [ ! -f "$SETTINGS" ]; then
     cat > "$SETTINGS" << SETTINGS_EOF

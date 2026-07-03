@@ -71,7 +71,7 @@ If the file doesn't exist, create it. If it does, merge these hooks in without r
         "hooks": [
           {
             "type": "command",
-            "command": "bash \".claude/scripts/context-prompt-check.sh\"",
+            "command": "bash .claude/scripts/context-prompt-check.sh",
             "timeout": 5
           }
         ]
@@ -83,7 +83,7 @@ If the file doesn't exist, create it. If it does, merge these hooks in without r
         "hooks": [
           {
             "type": "command",
-            "command": "bash \".claude/scripts/context-monitor.sh\" 2>/dev/null || true",
+            "command": "bash .claude/scripts/context-monitor.sh 2>/dev/null || true",
             "timeout": 5
           }
         ]
