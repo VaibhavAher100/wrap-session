@@ -40,12 +40,16 @@ for cmd in wrap unwrap wrap-list wrap-find wrap-repair; do
   echo "  + .claude/commands/${cmd}.md"
 done
 
-# Download hook scripts
-for script in context-thresholds context-monitor context-prompt-check; do
-  if ! curl -fsSL "$REPO/scripts/${script}.sh" -o ".claude/scripts/${script}.sh"; then
+# Download hook scripts (same logs/ -> LOG_DIR substitution as the commands)
+for script in context-thresholds context-monitor context-prompt-check change-ledger; do
+  tmpfile=$(mktemp)
+  if ! curl -fsSL "$REPO/scripts/${script}.sh" -o "$tmpfile"; then
     echo "Error: failed to download scripts/${script}.sh"
+    rm -f "$tmpfile"
     exit 1
   fi
+  sed "s|logs/|${LOG_DIR}/|g" "$tmpfile" > ".claude/scripts/${script}.sh"
+  rm -f "$tmpfile"
   chmod +x ".claude/scripts/${script}.sh"
   echo "  + .claude/scripts/${script}.sh"
 done
@@ -55,6 +59,7 @@ if [ -z "$WRAP_NO_HOOKS" ]; then
   SETTINGS=".claude/settings.json"
   HOOK_PROMPT='bash ".claude/scripts/context-prompt-check.sh"'
   HOOK_MONITOR='bash ".claude/scripts/context-monitor.sh" 2>/dev/null || true'
+  HOOK_LEDGER='bash ".claude/scripts/change-ledger.sh" 2>/dev/null || true'
 
   if [ ! -f "$SETTINGS" ]; then
     cat > "$SETTINGS" << SETTINGS_EOF
@@ -69,6 +74,10 @@ if [ -z "$WRAP_NO_HOOKS" ]; then
       {
         "matcher": ".*",
         "hooks": [{ "type": "command", "command": "$HOOK_MONITOR", "timeout": 5 }]
+      },
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [{ "type": "command", "command": "$HOOK_LEDGER", "timeout": 5 }]
       }
     ]
   }
@@ -104,6 +113,15 @@ already = any(
 )
 if not already:
     ptu.append({"matcher": ".*", "hooks": [{"type": "command", "command": monitor_cmd, "timeout": 5}]})
+
+ledger_cmd = '$HOOK_LEDGER'
+already = any(
+    h.get("command") == ledger_cmd
+    for entry in ptu
+    for h in entry.get("hooks", [])
+)
+if not already:
+    ptu.append({"matcher": "Write|Edit|MultiEdit", "hooks": [{"type": "command", "command": ledger_cmd, "timeout": 5}]})
 
 with open(path, "w") as f:
     json.dump(s, f, indent=2)

@@ -35,7 +35,7 @@ Run from my project root:
 
 After running, verify:
 - .claude/commands/ contains wrap.md, unwrap.md, wrap-list.md, wrap-find.md, wrap-repair.md
-- .claude/scripts/ contains context-thresholds.sh, context-monitor.sh, context-prompt-check.sh
+- .claude/scripts/ contains context-thresholds.sh, context-monitor.sh, context-prompt-check.sh, change-ledger.sh
 - logs/state.md exists
 - If .claude/settings.json already existed, confirm the context hooks were merged in
   without removing any pre-existing entries.
@@ -96,7 +96,7 @@ After installation, paste into any AI with file access:
 ```
 Verify wrap-session is correctly installed:
 1. .claude/commands/ has: wrap.md, unwrap.md, wrap-list.md, wrap-find.md, wrap-repair.md
-2. .claude/scripts/ has: context-thresholds.sh, context-monitor.sh, context-prompt-check.sh
+2. .claude/scripts/ has: context-thresholds.sh, context-monitor.sh, context-prompt-check.sh, change-ledger.sh
 3. logs/state.md exists and first line is ---
 4. logs/decisions.md exists
 5. .claude/settings.json has UserPromptSubmit hook pointing to context-prompt-check.sh

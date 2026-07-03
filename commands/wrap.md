@@ -122,6 +122,23 @@ The written content must include:
 
 ---
 
+## Step 3b — Consume the change-ledger (if present)
+
+`logs/change-ledger.md` is a zero-token capture of what changed this session, written by the
+optional `change-ledger.sh` PostToolUse hook. If it exists:
+```bash
+cat logs/change-ledger.md 2>/dev/null
+```
+Cross-check it against the Actions table in the session log — any listed file you have not
+already summarized still has its content in context, so summarize it now instead of letting a
+future session re-read the file. Then clear the ledger back to its header:
+```bash
+printf '# Change Ledger (auto, zero-token). Consumed + cleared by /wrap.\n\n' > logs/change-ledger.md
+```
+Skip this step silently if the file does not exist.
+
+---
+
 ## Step 4 — Append to `logs/decisions.md` (only if needed)
 
 First, count existing entries:

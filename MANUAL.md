@@ -16,7 +16,7 @@ done
 
 ```bash
 mkdir -p .claude/scripts
-for s in context-thresholds context-monitor context-prompt-check; do
+for s in context-thresholds context-monitor context-prompt-check change-ledger; do
   curl -sS "https://raw.githubusercontent.com/VaibhavAher100/wrap-session/main/scripts/${s}.sh" \
     -o ".claude/scripts/${s}.sh"
   chmod +x ".claude/scripts/${s}.sh"

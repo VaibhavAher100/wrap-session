@@ -4,6 +4,8 @@ Session memory for Claude Code. Save where you were. Resume where you left off.
 
 Not a chat log. A structured three-document memory layer that lives in your project folder: a living state file, an immutable session log, and an append-only decision record. Every Claude Code session can read it and pick up exactly where the last one ended.
 
+New: a zero-token change ledger. A PostToolUse hook records every file Claude writes or edits during the session; `/wrap` consumes the list to build the session log's Actions table while the content is still in context, then clears it. No LLM tokens spent, nothing re-read later.
+
 ---
 
 ## Getting Started
